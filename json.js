@@ -61,3 +61,25 @@ function numParser (input) {
   if (_string.length === 0) return null
   return [Number(_string), input.slice(_string.length)]
 }
+function strParser (input) {
+  if (!input.startsWith('"')) return null
+  let escape = { '\\': '\\', '/': '/', '"': '"', 'b': '\b', 't': '\t', 'n': '\n', 'f': '\f', 'r': '\r' }
+  let result = ' '
+  let str = input.slice(1)
+  while (str[0] !== '"') {
+    if (str[0] === '\\') {
+      if (escape[str[1]] === undefined && str[1] !== 'u') return null
+      if (str[1] === 'u') {
+        if (str.slice(2).length <= 4) return null
+        result += str.slice(2, 6); str = str.slice(6)
+        continue
+      }
+      result += escape[str[1]]; str = str.slice(2)
+      if (str.indexOf('"') === -1) return null
+      continue
+    }
+    result += str[0]; str = str.slice(1)
+    if (str.length === 0) return null
+  }
+  return [result.slice(1, result.length), str.slice(1)]
+}
