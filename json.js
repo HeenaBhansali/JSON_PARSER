@@ -146,18 +146,16 @@ function parser (input) {
   return result
 }
 var fs = require('fs')
-var contents = fs.readFileSync('/home/heena/Downloads/test/fail1.json', 'utf8')
-console.log(parser(contents))
-// var path = require('path')
-// var directory = '/home/heena/Downloads/test'
-// var files = fs.readdirSync(directory)
-// for (let i = 0; i < files.length; i++) {
-//   var x = path.join('/home/heena/Downloads/test/', files[i])
-//   var contents = fs.readFileSync(x, 'utf8')
-//   let res = parser(contents)
-//   if (res !== null) {
-//     res = spaceParser(res.slice(1))
-//     if (res.length > 0) console.log(files[i], null)
-//     else console.log(files[i], parser(contents))
-//   } else console.log(files[i], parser(contents))
-// }
+var path = require('path')
+var directory = '/home/heena/Downloads/test'
+var files = fs.readdirSync(directory)
+for (let i = 0; i < files.length; i++) {
+  var x = path.join('/home/heena/Downloads/test/', files[i])
+  var contents = fs.readFileSync(x, 'utf8')
+  let res = parser(contents)
+  if (res !== null) {
+    res = spaceParser(res.slice(1))
+    if (res.length > 0) console.log(files[i], null)
+    else console.log(files[i], parser(contents))
+  } else console.log(files[i], parser(contents))
+}
